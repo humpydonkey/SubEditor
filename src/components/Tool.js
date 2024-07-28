@@ -6,7 +6,8 @@ import { getExt, download } from '../utils';
 import { file2sub, sub2vtt, sub2srt, sub2txt } from '../libs/readSub';
 import sub2ass from '../libs/readSub/sub2ass';
 import googleTranslate from '../libs/googleTranslate';
-import FFmpeg from '@ffmpeg/ffmpeg';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+
 import SimpleFS from '@forlagshuset/simple-fs';
 
 const Style = styled.div`
@@ -237,7 +238,7 @@ const Style = styled.div`
     }
 `;
 
-FFmpeg.createFFmpeg({ log: true }).load();
+const ffmpeg = new FFmpeg({ log: true });
 const fs = new SimpleFS.FileSystem();
 
 export default function Header({
@@ -260,8 +261,8 @@ export default function Header({
     const decodeAudioData = useCallback(
         async (file) => {
             try {
-                const { createFFmpeg, fetchFile } = FFmpeg;
-                const ffmpeg = createFFmpeg({ log: true });
+                const { fetchFile } = FFmpeg;
+                await ffmpeg.load();
                 ffmpeg.setProgress(({ ratio }) => setProcessing(ratio * 100));
                 setLoading(t('LOADING_FFMPEG'));
                 await ffmpeg.load();
