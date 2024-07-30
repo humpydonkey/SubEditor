@@ -12,7 +12,7 @@ import GlobalStyle from './GlobalStyle';
 
 setTranslations(i18n);
 const language = navigator.language.toLowerCase();
-const defaultLang = i18n[language] ? language : 'en';
+const defaultLang = i18n[language] ? language : 'zh';
 setLocale(defaultLang);
 
 ReactDOM.render(

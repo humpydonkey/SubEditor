@@ -68,7 +68,7 @@ export default function Subtitles({ currentIndex, subtitle, checkSub, player, up
         <Style className="subtitles">
             <Table
                 headerHeight={40}
-                width={250}
+                width={700}
                 height={height}
                 rowHeight={80}
                 scrollToIndex={currentIndex}

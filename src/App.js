@@ -18,6 +18,7 @@ const Style = styled.div`
 
     .main {
         display: flex;
+        flex-direction: column;
         height: calc(100% - 200px);
 
         .player {
@@ -25,16 +26,23 @@ const Style = styled.div`
         }
 
         .subtitles {
-            width: 250px;
+            width: 700px;
         }
 
         .tool {
-            width: 300px;
+            width: 100%;
         }
     }
 
     .footer {
         height: 200px;
+    }
+
+    .editor {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
     }
 `;
 
@@ -308,9 +316,11 @@ export default function App({ defaultLang }) {
     return (
         <Style>
             <div className="main">
-                <Player {...props} />
-                <Subtitles {...props} />
                 <Tool {...props} />
+                <div className='editor'>
+                    <Player {...props} />
+                    <Subtitles {...props} />
+                </div>
             </div>
             <Footer {...props} />
             {loading ? <Loading loading={loading} /> : null}

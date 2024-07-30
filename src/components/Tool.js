@@ -11,40 +11,43 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import SimpleFS from '@forlagshuset/simple-fs';
 
 const Style = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     padding-bottom: 20px;
-    position: relative;
-    overflow: hidden;
     background-color: rgb(0 0 0 / 100%);
     border-left: 1px solid rgb(255 255 255 / 20%);
+    height: 80px;
+
+    .navbar {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .navbar .btn {
+        position: relative;
+        opacity: 0.85;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 35px;
+        padding: 0 10px;
+        border-radius: 3px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 13px;
+        background-color: #3f51b5;
+        transition: all 0.2s ease 0s;
+        margin: 10px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
 
     .import {
         display: flex;
-        justify-content: space-between;
         padding: 10px;
-        border-bottom: 1px solid rgb(255 255 255 / 20%);
-
-        .btn {
-            position: relative;
-            opacity: 0.85;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 35px;
-            width: 48%;
-            border-radius: 3px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 13px;
-            background-color: #3f51b5;
-            transition: all 0.2s ease 0s;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
 
         .file {
             position: absolute;
@@ -60,55 +63,21 @@ const Style = styled.div`
 
     .burn {
         display: flex;
-        justify-content: space-between;
+        justify-content: end;
         padding: 10px;
-        border-bottom: 1px solid rgb(255 255 255 / 20%);
 
         .btn {
-            position: relative;
-            opacity: 0.85;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 35px;
-            width: 100%;
-            border-radius: 3px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 13px;
             background-color: #673ab7;
-            transition: all 0.2s ease 0s;
-
-            &:hover {
-                opacity: 1;
-            }
         }
     }
 
     .export {
         display: flex;
-        justify-content: space-between;
+        justify-content: end;
         padding: 10px;
-        border-bottom: 1px solid rgb(255 255 255 / 20%);
 
         .btn {
-            position: relative;
-            opacity: 0.85;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 35px;
-            width: 31%;
-            border-radius: 3px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 13px;
             background-color: #009688;
-            transition: all 0.2s ease 0s;
-
-            &:hover {
-                opacity: 1;
-            }
         }
     }
 
@@ -116,71 +85,43 @@ const Style = styled.div`
         display: flex;
         justify-content: space-between;
         padding: 10px;
-        border-bottom: 1px solid rgb(255 255 255 / 20%);
 
         .btn {
-            position: relative;
-            opacity: 0.85;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 35px;
-            width: 48%;
-            border-radius: 3px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 13px;
             background-color: #009688;
-            transition: all 0.2s ease 0s;
-
-            &:hover {
-                opacity: 1;
-            }
         }
     }
 
     .translate {
         display: flex;
-        justify-content: space-between;
+        justify-content: start;
+        align-items: center;
         padding: 10px;
-        border-bottom: 1px solid rgb(255 255 255 / 20%);
 
         select {
-            width: 65%;
+            width: 45%;
+            height: 35px;
             outline: none;
             padding: 0 5px;
             border-radius: 3px;
         }
 
         .btn {
-            opacity: 0.85;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 35px;
-            width: 33%;
-            border-radius: 3px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 13px;
             background-color: #673ab7;
-            transition: all 0.2s ease 0s;
-
-            &:hover {
-                opacity: 1;
-            }
         }
     }
 
     .hotkey {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 10px;
+        width: 17%;
 
         span {
-            width: 49%;
+            width: 100%;
             font-size: 13px;
             padding: 5px 0;
+            margin: 0 10px;
             border-radius: 3px;
             text-align: center;
             color: rgb(255 255 255 / 75%);
@@ -475,7 +416,7 @@ export default function Header({
 
     return (
         <Style className="tool">
-            <div className="top">
+            <div className="navbar">
                 <div className="import">
                     <div className="btn">
                         <Translate value="OPEN_VIDEO" />
