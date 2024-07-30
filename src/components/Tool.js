@@ -14,7 +14,6 @@ const Style = styled.div`
     padding-bottom: 20px;
     background-color: rgb(0 0 0 / 100%);
     border-left: 1px solid rgb(255 255 255 / 20%);
-    height: 80px;
 
     .navbar {
         width: 100%;

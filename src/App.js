@@ -31,6 +31,7 @@ const Style = styled.div`
 
         .tool {
             width: 100%;
+            height: 80px;
         }
     }
 
@@ -41,8 +42,9 @@ const Style = styled.div`
     .editor {
         display: flex;
         flex-direction: row;
-        height: 100%;
         width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
 `;
 
