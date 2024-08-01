@@ -181,7 +181,7 @@ const Style = styled.div`
 const ffmpeg = new FFmpeg({ log: true });
 const fs = new SimpleFS.FileSystem();
 
-export default function Header({
+export default function Tool({
     player,
     waveform,
     newSub,

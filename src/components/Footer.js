@@ -113,19 +113,19 @@ const Style = styled.div`
 
 const Waveform = memo(
     ({ player, setWaveform, setRender }) => {
-        const $waveform = createRef();
+        const $waveformContainer = createRef();
 
         useEffect(() => {
             [...WFPlayer.instances].forEach((item) => item.destroy());
 
-            const waveform = new WFPlayer({
+            const wfPlayer = new WFPlayer({
                 scrollable: true,
                 useWorker: false,
                 duration: 10,
                 padding: 1,
                 wave: true,
                 pixelRatio: 2,
-                container: $waveform.current,
+                container: $waveformContainer.current,
                 mediaElement: player,
                 backgroundColor: 'rgba(0, 0, 0, 0)',
                 waveColor: 'rgba(255, 255, 255, 0.2)',
@@ -135,12 +135,12 @@ const Waveform = memo(
                 paddingColor: 'rgba(0, 0, 0, 0)',
             });
 
-            setWaveform(waveform);
-            waveform.on('update', setRender);
-            waveform.load('/sample.mp3');
-        }, [player, $waveform, setWaveform, setRender]);
+            setWaveform(wfPlayer);
+            wfPlayer.on('update', setRender);
+            wfPlayer.load('/sample.mp3');
+        }, [player, $waveformContainer, setWaveform, setRender]);
 
-        return <div className="waveform" ref={$waveform} />;
+        return <div className="waveform" ref={$waveformContainer} />;
     },
     () => true,
 );
