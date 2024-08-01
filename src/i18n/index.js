@@ -112,7 +112,7 @@ const zh = {
     EXPORT_SRT: '导出 SRT',
     EXPORT_VTT: '导出 VTT',
     EXPORT_VIDEO: '导出视频',
-    TRANSLATE: '批量翻译',
+    TRANSLATE: '整视频翻译',
     TRANSLATING: '翻译中...',
     TRANSLAT_SUCCESS: '翻译成功',
     DECODE_START: '开始解码音频',
