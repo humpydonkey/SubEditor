@@ -121,7 +121,9 @@ function getCurrentSubs(subs, beginTime, duration) {
 }
 
 function magnetically(time, closeTime) {
-    if (!closeTime) return time;
+    if (!closeTime) {
+      return time;
+    }
     if (time > closeTime - 0.1 && closeTime + 0.1 > time) {
         return closeTime;
     }
@@ -135,7 +137,7 @@ let lastX = 0;
 let lastIndex = -1;
 let lastWidth = 0;
 let lastDiffX = 0;
-let isDroging = false;
+let isDropped = false;
 
 export default React.memo(
     function ({ player, subtitle, render, currentTime, checkSub, removeSub, hasSub, updateSub, mergeSub }) {
@@ -149,8 +151,10 @@ export default React.memo(
 
         const onMouseDown = (sub, event, type) => {
             lastSub = sub;
-            if (event.button !== 0) return;
-            isDroging = true;
+            if (event.button !== 0) {
+              return;
+            }
+            isDropped = true;
             lastType = type;
             lastX = event.pageX;
             lastIndex = currentSubs.indexOf(sub);
@@ -161,12 +165,12 @@ export default React.memo(
         const onDoubleClick = (sub, event) => {
             const $subs = event.currentTarget;
             const index = hasSub(sub);
-            const previou = subtitle[index - 1];
+            const prev = subtitle[index - 1];
             const next = subtitle[index + 1];
-            if (previou && next) {
-                const width = (next.startTime - previou.endTime) * 10 * gridGap;
+            if (prev && next) {
+                const width = (next.startTime - prev.endTime) * 10 * gridGap;
                 $subs.style.width = `${width}px`;
-                const start = DT.d2t(previou.endTime);
+                const start = DT.d2t(prev.endTime);
                 const end = DT.d2t(next.startTime);
                 updateSub(sub, {
                     start,
@@ -176,7 +180,7 @@ export default React.memo(
         };
 
         const onDocumentMouseMove = useCallback((event) => {
-            if (isDroging && lastTarget) {
+            if (isDropped && lastTarget) {
                 lastDiffX = event.pageX - lastX;
                 if (lastType === 'left') {
                     lastTarget.style.width = `${lastWidth - lastDiffX}px`;
@@ -190,17 +194,17 @@ export default React.memo(
         }, []);
 
         const onDocumentMouseUp = useCallback(() => {
-            if (isDroging && lastTarget && lastDiffX) {
+            if (isDropped && lastTarget && lastDiffX) {
                 const timeDiff = lastDiffX / gridGap / 10;
                 const index = hasSub(lastSub);
-                const previou = subtitle[index - 1];
+                const prev = subtitle[index - 1];
                 const next = subtitle[index + 1];
 
-                const startTime = magnetically(lastSub.startTime + timeDiff, previou ? previou.endTime : null);
+                const startTime = magnetically(lastSub.startTime + timeDiff, prev ? prev.endTime : null);
                 const endTime = magnetically(lastSub.endTime + timeDiff, next ? next.startTime : null);
                 const width = (endTime - startTime) * 10 * gridGap;
 
-                if ((previou && endTime < previou.startTime) || (next && startTime > next.endTime)) {
+                if ((prev && endTime < prev.startTime) || (next && startTime > next.endTime)) {
                     //
                 } else {
                     if (lastType === 'left') {
@@ -238,7 +242,7 @@ export default React.memo(
             lastX = 0;
             lastWidth = 0;
             lastDiffX = 0;
-            isDroging = false;
+            isDropped = false;
         }, [gridGap, hasSub, subtitle, updateSub]);
 
         const onKeyDown = useCallback(
@@ -247,22 +251,22 @@ export default React.memo(
                 if (sub && lastTarget) {
                     const keyCode = getKeyCode(event);
                     switch (keyCode) {
-                        case 37:
+                        case 37: // Left arrow
                             updateSub(sub, {
                                 start: DT.d2t(sub.startTime - 0.1),
                                 end: DT.d2t(sub.endTime - 0.1),
                             });
                             player.currentTime = sub.startTime - 0.1;
                             break;
-                        case 39:
+                        case 39: // Right arrow
                             updateSub(sub, {
                                 start: DT.d2t(sub.startTime + 0.1),
                                 end: DT.d2t(sub.endTime + 0.1),
                             });
                             player.currentTime = sub.startTime + 0.1;
                             break;
-                        case 8:
-                        case 46:
+                        case 8: // Backspace
+                        case 46: // Delete
                             removeSub(sub);
                             break;
                         default:
