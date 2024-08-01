@@ -146,13 +146,17 @@ const Waveform = memo(
 );
 
 const Grab = (props) => {
+    // An horizontal semi-transparent overlay (on a progress bar) that user can
+    // grab and move to change the current playing time and waveform of the video
     const [grabStartX, setGrabStartX] = useState(0);
     const [grabStartTime, setGrabStartTime] = useState(0);
     const [grabbing, setGrabbing] = useState(false);
 
     const onGrabDown = useCallback(
         (event) => {
-            if (event.button !== 0) return;
+            if (event.button !== 0) {
+              return;
+            }
             setGrabStartX(event.pageX);
             setGrabStartTime(props.player.currentTime);
             setGrabbing(true);

@@ -39,9 +39,10 @@ function findIndex(subs, startTime) {
 }
 
 export default function Component({ render, subtitle, newSub, addSub, player, playing }) {
-    const [isDroging, setIsDroging] = useState(false);
-    const [drogStartTime, setDrogStartTime] = useState(0);
-    const [drogEndTime, setDrogEndTime] = useState(0);
+    // An horizontal transparent overlay (on the waveform) that user can drag and drop to create a new subtitle
+    const [isDropped, setIsDropped] = useState(false);
+    const [dropStartTime, setDropStartTime] = useState(0);
+    const [dropEndTime, setDropEndTime] = useState(0);
     const gridGap = document.body.clientWidth / render.gridNum;
 
     const getEventTime = useCallback(
@@ -53,58 +54,60 @@ export default function Component({ render, subtitle, newSub, addSub, player, pl
 
     const onMouseDown = useCallback(
         (event) => {
-            if (event.button !== 0) return;
+            if (event.button !== 0) {
+              return;
+            }
             const clickTime = getEventTime(event);
-            setIsDroging(true);
-            setDrogStartTime(clickTime);
+            setIsDropped(true);
+            setDropStartTime(clickTime);
         },
         [getEventTime],
     );
 
     const onMouseMove = useCallback(
         (event) => {
-            if (isDroging) {
-                if (playing) player.pause();
-                setDrogEndTime(getEventTime(event));
+            if (isDropped) {
+                if (playing) {
+                  player.pause();
+                }
+                setDropEndTime(getEventTime(event));
             }
         },
-        [isDroging, playing, player, getEventTime],
+        [isDropped, playing, player, getEventTime],
     );
 
-    const onDocumentMouseUp = useCallback(() => {
-        if (isDroging) {
-            if (drogStartTime > 0 && drogEndTime > 0 && drogEndTime - drogStartTime >= 0.2) {
-                const index = findIndex(subtitle, drogStartTime) + 1;
-                const start = DT.d2t(drogStartTime);
-                const end = DT.d2t(drogEndTime);
-                addSub(
-                    index,
-                    newSub({
-                        start,
-                        end,
-                        text: t('SUB_TEXT'),
-                    }),
-                );
-            }
+    const onMouseUp = useCallback(() => {
+        if (isDropped && (dropStartTime > 0 && dropEndTime > 0 && dropEndTime - dropStartTime >= 0.2)) {
+              const index = findIndex(subtitle, dropStartTime) + 1;
+              const start = DT.d2t(dropStartTime);
+              const end = DT.d2t(dropEndTime);
+              addSub(
+                  index,
+                  newSub({
+                      start,
+                      end,
+                      text: t('SUB_TEXT'),
+                  }),
+              );
         }
-        setIsDroging(false);
-        setDrogStartTime(0);
-        setDrogEndTime(0);
-    }, [isDroging, drogStartTime, drogEndTime, subtitle, addSub, newSub]);
+        setIsDropped(false);
+        setDropStartTime(0);
+        setDropEndTime(0);
+    }, [isDropped, dropStartTime, dropEndTime, subtitle, addSub, newSub]);
 
     useEffect(() => {
-        document.addEventListener('mouseup', onDocumentMouseUp);
-        return () => document.removeEventListener('mouseup', onDocumentMouseUp);
-    }, [onDocumentMouseUp]);
+        document.addEventListener('mouseup', onMouseUp);
+        return () => document.removeEventListener('mouseup', onMouseUp);
+    }, [onMouseUp]);
 
     return (
-        <Metronome onMouseDown={onMouseDown} onMouseMove={onMouseMove}>
-            {player && !playing && drogStartTime && drogEndTime && drogEndTime > drogStartTime ? (
+        <Metronome className="metronome" onMouseDown={onMouseDown} onMouseMove={onMouseMove}>
+            {player && !playing && dropStartTime && dropEndTime && dropEndTime > dropStartTime ? (
                 <div
                     className="template"
                     style={{
-                        left: render.padding * gridGap + (drogStartTime - render.beginTime) * gridGap * 10,
-                        width: (drogEndTime - drogStartTime) * gridGap * 10,
+                        left: render.padding * gridGap + (dropStartTime - render.beginTime) * gridGap * 10,
+                        width: (dropEndTime - dropStartTime) * gridGap * 10,
                     }}
                 ></div>
             ) : null}
