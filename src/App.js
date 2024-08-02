@@ -65,6 +65,7 @@ export default function App({ defaultLang }) {
     const hasSub = useCallback((sub) => subtitle.indexOf(sub), [subtitle]);
 
     const formatSub = useCallback(
+        // Format and clone subtitle data to a new array of Sub objects
         (sub) => {
             if (Array.isArray(sub)) {
                 return sub.map((item) => newSub(item));
@@ -105,9 +106,12 @@ export default function App({ defaultLang }) {
     }, [setSubtitle, subtitleHistory]);
 
     const checkSub = useCallback(
+        // Check if a subtitle sentence (i.e. the Sub object) is valid
         (sub) => {
             const index = hasSub(sub);
-            if (index < 0) return;
+            if (index < 0) {
+              return;
+            }
             const previous = subtitle[index - 1];
             return (previous && sub.startTime < previous.endTime) || !sub.check || sub.duration < 0.2;
         },
@@ -133,7 +137,9 @@ export default function App({ defaultLang }) {
     const removeSub = useCallback(
         (sub) => {
             const index = hasSub(sub);
-            if (index < 0) return;
+            if (index < 0) {
+              return;
+            }
             const subs = copySubs();
             subs.splice(index, 1);
             setSubtitle(subs);
@@ -153,7 +159,9 @@ export default function App({ defaultLang }) {
     const updateSub = useCallback(
         (sub, obj) => {
             const index = hasSub(sub);
-            if (index < 0) return;
+            if (index < 0) {
+              return;
+            }
             const subs = copySubs();
             const subClone = formatSub(sub);
             Object.assign(subClone, obj);
@@ -168,10 +176,14 @@ export default function App({ defaultLang }) {
     const mergeSub = useCallback(
         (sub) => {
             const index = hasSub(sub);
-            if (index < 0) return;
+            if (index < 0) {
+              return;
+            }
             const subs = copySubs();
             const next = subs[index + 1];
-            if (!next) return;
+            if (!next) {
+              return;
+            }
             const merge = newSub({
                 start: sub.start,
                 end: next.end,
@@ -186,14 +198,21 @@ export default function App({ defaultLang }) {
 
     const splitSub = useCallback(
         (sub, start) => {
+            // start is the index of the character where the split should occur
             const index = hasSub(sub);
-            if (index < 0 || !sub.text || !start) return;
+            if (index < 0 || !sub.text || !start) {
+              return;
+            }
             const subs = copySubs();
             const text1 = sub.text.slice(0, start).trim();
             const text2 = sub.text.slice(start).trim();
-            if (!text1 || !text2) return;
+            if (!text1 || !text2) {
+              return;
+            }
             const splitDuration = (sub.duration * (start / sub.text.length)).toFixed(3);
-            if (splitDuration < 0.2 || sub.duration - splitDuration < 0.2) return;
+            if (splitDuration < 0.2 || sub.duration - splitDuration < 0.2) {
+              return;
+            }
             subs.splice(index, 1);
             const middleTime = DT.d2t(sub.startTime + parseFloat(splitDuration));
             subs.splice(
@@ -223,7 +242,7 @@ export default function App({ defaultLang }) {
         (event) => {
             const keyCode = getKeyCode(event);
             switch (keyCode) {
-                case 32:
+                case 32: // space bar
                     event.preventDefault();
                     if (player) {
                         if (playing) {
@@ -233,7 +252,7 @@ export default function App({ defaultLang }) {
                         }
                     }
                     break;
-                case 90:
+                case 90: // 'z' key
                     event.preventDefault();
                     if (event.metaKey) {
                         undoSubs();

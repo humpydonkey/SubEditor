@@ -103,6 +103,7 @@ export default function Subtitles({ currentIndex, subtitle, checkSub, player, up
                                         .trim()}
                                     value={unescape(props.rowData.text)}
                                     onChange={(event) => {
+                                        // props.rowData is of Sub type
                                         updateSub(props.rowData, {
                                             text: event.target.value,
                                         });
