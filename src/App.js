@@ -26,7 +26,7 @@ const Style = styled.div`
         }
 
         .subtitles {
-            width: 700px;
+            // width: 50%;  // The subtitle table controls the width
         }
 
         .tool {
