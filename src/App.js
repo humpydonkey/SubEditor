@@ -157,14 +157,18 @@ export default function App({ defaultLang }) {
     );
 
     const updateSub = useCallback(
-        (sub, obj) => {
+        (sub, obj, isTranslation = false) => {
             const index = hasSub(sub);
             if (index < 0) {
               return;
             }
             const subs = copySubs();
             const subClone = formatSub(sub);
-            Object.assign(subClone, obj);
+            if (isTranslation) {
+                subClone.text2 = obj.text;
+            } else {
+                Object.assign(subClone, obj);
+            }
             if (subClone.check) {
                 subs[index] = subClone;
                 setSubtitle(subs);

@@ -210,12 +210,12 @@ export default function Subtitles({ currentIndex, subtitle, checkSub, player, up
                                         ]
                                             .join(' ')
                                             .trim()}
-                                        value={unescape('translation')}
+                                        value={unescape(props.rowData.text2)}
                                         onChange={(event) => {
                                             // props.rowData is of Sub type
                                             updateSub(props.rowData, {
                                                 text: event.target.value,
-                                            });
+                                            }, true);
                                         }}
                                     />
                                 </div>
