@@ -331,6 +331,12 @@ export default React.memo(
                                         {`${sub.text}`.split(/\r?\n/).map((line, index) => (
                                             <p key={index}>{line}</p>
                                         ))}
+
+                                        {sub.text2 && (
+                                            <div>{`${sub.text2}`.split(/\r?\n/).map((line, index) => (
+                                                <p key={index}>{line}</p>
+                                            ))}</div>
+                                        )}
                                     </div>
 
                                     <div

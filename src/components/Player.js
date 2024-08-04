@@ -180,7 +180,7 @@ export default function Player(props) {
                             </div>
                         ) : null}
                         <TextareaAutosize
-                            className={`textarea ${!props.playing ? 'pause' : ''}`}
+                            className={`textarea ${props.playing ? '' : 'pause'}`}
                             value={currentSub.text}
                             onChange={onChange}
                             onClick={onClick}
@@ -189,6 +189,19 @@ export default function Player(props) {
                             onKeyDown={onFocus}
                             spellCheck={false}
                         />
+                        {currentSub.text2 ? (
+                            <TextareaAutosize
+                                className={`textarea ${props.playing ? '' : 'pause'}`}
+                                style={{ color: "rgb(255, 251, 23)" }}
+                                value={currentSub.text2}
+                                onChange={(event) => props.updateSub(currentSub, { text2: event.target.value }, true)}
+                                onClick={onClick}
+                                onFocus={onFocus}
+                                onBlur={onBlur}
+                                onKeyDown={onFocus}
+                                spellCheck={false}
+                            />
+                        ) : null}
                     </div>
                 ) : null}
             </div>
