@@ -195,7 +195,7 @@ export default function Tool({
     setProcessing,
     notify,
 }) {
-    const [translate, setTranslate] = useState('en');
+    const [translate, setTranslate] = useState('zh');
     const [videoFile, setVideoFile] = useState(null);
 
     const decodeAudioData = useCallback(

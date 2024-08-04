@@ -150,6 +150,7 @@ export default function Subtitles({ currentIndex, subtitle, checkSub, player, up
                             }}
                         >
                             <div className="item">
+                                {/* Sentence Metadata and Controls */}
                                 <div className={[
                                             'controls',
                                             currentIndex === props.index ? 'highlight' : '',
@@ -180,7 +181,7 @@ export default function Subtitles({ currentIndex, subtitle, checkSub, player, up
                                         title="Delete subtitle sentence"
                                     />
                                 </div>
-
+                                {/* Sentence Editor */}
                                 <div className="text">
                                     <textarea
                                         maxLength={200}
