@@ -7,7 +7,7 @@ import { file2sub, sub2vtt, sub2srt, sub2txt } from '../libs/readSub';
 import sub2ass from '../libs/readSub/sub2ass';
 import googleTranslate from '../libs/googleTranslate';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
-
+import DT from 'duration-time-conversion';
 import SimpleFS from '@forlagshuset/simple-fs';
 
 const Style = styled.div`
@@ -300,7 +300,20 @@ export default function Tool({
 
     const onVideoChange = useCallback(
         (event) => {
-            const file = event.target.files[0];
+            // TODO: add check length <= 2, check file type is either video or subtitle
+            let file;
+            let subtitleFile = null;
+            if (event.target.files.length > 1) {
+                for (const f of event.target.files) {
+                    if (f.type.startsWith('video')) {
+                        file = f;
+                    } else if (f.name.endsWith(".subtitle")) {
+                        subtitleFile = f;
+                    }
+                }
+            } else {
+                file = event.target.files[0];
+            }
             if (file) {
                 const ext = getExt(file.name);
                 const canPlayType = player.canPlayType(file.type);
@@ -312,14 +325,6 @@ export default function Tool({
                     waveform.drawer.update();
                     waveform.seek(0);
                     player.currentTime = 0;
-                    clearSubs();
-                    setSubtitle([
-                        newSub({
-                            start: '00:00:00.000',
-                            end: '00:00:01.000',
-                            text: t('SUB_TEXT'),
-                        }),
-                    ]);
                     player.src = url;
                 } else {
                     notify({
@@ -327,6 +332,41 @@ export default function Tool({
                         level: 'error',
                     });
                 }
+            }
+            clearSubs();
+            if (subtitleFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const subtitleJson = JSON.parse(e.target.result);
+                        const sub = [];
+                        for (const sentence of subtitleJson["sentences"]) {
+                            const s = newSub({
+                                start: DT.d2t(sentence["start"]),
+                                end: DT.d2t(sentence["start"] + sentence["duration"]),
+                                text: sentence["text"],
+                                rawTranslations: sentence["raw_translations"],
+                            });
+                            sub.push(s);
+                        }
+                        setSubtitle(sub);
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        notify({
+                            message: `${t('LOAD_SUBTITLE_ERROR')}: ${subtitleFile}. ${error}`,
+                            level: 'error',
+                        });
+                    }
+                };
+                reader.readAsText(subtitleFile);
+            } else {
+                setSubtitle([
+                    newSub({
+                        start: '00:00:00.000',
+                        end: '00:00:01.000',
+                        text: t('SUB_TEXT'),
+                    }),
+                ]);
             }
         },
         [newSub, notify, player, setSubtitle, waveform, clearSubs, decodeAudioData],
@@ -419,7 +459,7 @@ export default function Tool({
                 <div className="import">
                     <div className="btn">
                         <Translate value="OPEN_VIDEO" />
-                        <input className="file" type="file" onChange={onVideoChange} onClick={onInputClick} />
+                        <input className="file" type="file" onChange={onVideoChange} onClick={onInputClick} multiple />
                     </div>
                     <div className="btn">
                         <Translate value="OPEN_SUB" />

@@ -32,6 +32,7 @@ const en = {
     BURN_START: 'Start burn subtitles',
     BURN_SUCCESS: 'Burn subtitles success',
     OPEN_VIDEO_ERROR: 'Please open the video first',
+    LOAD_SUBTITLE_ERROR: 'Load subtitle or translation failed',
 };
 
 const it = {
@@ -137,6 +138,7 @@ const zh = {
     BURN_START: '开始合成字幕',
     BURN_SUCCESS: '合成字幕成功',
     OPEN_VIDEO_ERROR: '请先打开视频',
+    LOAD_SUBTITLE_ERROR: '加载字幕或翻译失败',
 };
 
 const i18n = {

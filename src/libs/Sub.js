@@ -7,6 +7,7 @@ export default class Sub {
         this.end = obj.end;
         this.text = obj.text;
         this.text2 = obj.text2;
+        this.rawTranslations = obj.rawTranslations || {};
     }
 
     get check() {
