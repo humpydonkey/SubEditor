@@ -79,6 +79,10 @@ const Style = styled.div`
                     background-color: rgb(0 0 0 / 50%);
                 }
             }
+
+            .textarea-translation {
+                color: rgb(255, 251, 23);
+            }
         }
     }
 `;
@@ -191,8 +195,7 @@ export default function Player(props) {
                         />
                         {currentSub.text2 ? (
                             <TextareaAutosize
-                                className={`textarea ${props.playing ? '' : 'pause'}`}
-                                style={{ color: "rgb(255, 251, 23)" }}
+                                className={`textarea textarea-translation ${props.playing ? '' : 'pause'}`}
                                 value={currentSub.text2}
                                 onChange={(event) => props.updateSub(currentSub, { text2: event.target.value }, true)}
                                 onClick={onClick}
