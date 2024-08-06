@@ -345,6 +345,7 @@ export default function Tool({
                                 start: DT.d2t(sentence["start"]),
                                 end: DT.d2t(sentence["start"] + sentence["duration"]),
                                 text: sentence["text"],
+                                text2: sentence["raw_translations"]["agent_translator"]["text"],
                                 rawTranslations: sentence["raw_translations"],
                             });
                             sub.push(s);
