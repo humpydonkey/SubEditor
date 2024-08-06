@@ -125,7 +125,6 @@ const Style = styled.div`
                     width: 100%;
                     max-height: 150px;
                     overflow-y: auto;
-                    border: 1px solid #ccc;
                     background-color: rgba(37, 37, 37, 1);;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                     z-index: 10;
