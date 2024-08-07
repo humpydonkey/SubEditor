@@ -1,5 +1,5 @@
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
-import React, { useEffect, useCallback } from 'react';
+import { memo, createRef, useEffect, useCallback } from 'react';
 import { Translate } from 'react-i18nify';
 import styled from 'styled-components';
 import isEqual from 'lodash/isEqual';
@@ -139,10 +139,10 @@ let lastWidth = 0;
 let lastDiffX = 0;
 let isDropped = false;
 
-export default React.memo(
+export default memo(
     function ({ player, subtitle, render, currentTime, checkSub, removeSub, hasSub, updateSub, mergeSub }) {
-        const $blockRef = React.createRef();
-        const $subsRef = React.createRef();
+        const $blockRef = createRef();
+        const $subsRef = createRef();
         const currentSubs = getCurrentSubs(subtitle, render.beginTime, render.duration);
         const gridGap = document.body.clientWidth / render.gridNum;
         const currentIndex = currentSubs.findIndex(

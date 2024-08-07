@@ -1,7 +1,7 @@
 import 'core-js';
 import 'normalize.css';
 import './libs/contextmenu.css';
-import React from 'react';
+import { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { isMobile } from './utils';
 import { setLocale, setTranslations } from 'react-i18nify';
@@ -16,9 +16,9 @@ const defaultLang = i18n[language] ? language : 'zh';
 setLocale(defaultLang);
 
 ReactDOM.render(
-    <React.Fragment>
+    <Fragment>
         <GlobalStyle />
         {isMobile ? <Mobile /> : <App defaultLang={defaultLang} />}
-    </React.Fragment>,
+    </Fragment>,
     document.getElementById('root'),
 );

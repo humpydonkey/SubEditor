@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import NotificationSystem from 'react-notification-system';
 import DT from 'duration-time-conversion';
 import isEqual from 'lodash/isEqual';

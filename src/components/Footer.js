@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import DT from 'duration-time-conversion';
-import React, { useState, useEffect, useCallback, createRef, memo } from 'react';
+import { Fragment, useState, useEffect, useCallback, createRef, memo } from 'react';
 import WFPlayer from 'wfplayer';
 import clamp from 'lodash/clamp';
 import throttle from 'lodash/throttle';
@@ -322,14 +322,14 @@ export default function Footer(props) {
     return (
         <Style className="footer" ref={$footer}>
             {props.player ? (
-                <React.Fragment>
+                <Fragment>
                     <Progress {...props} />
                     <Duration {...props} />
                     <Waveform {...props} setRender={setRender} />
                     <Grab {...props} render={render} />
                     <Metronome {...props} render={render} />
                     <Timeline {...props} render={render} />
-                </React.Fragment>
+                </Fragment>
             ) : null}
         </Style>
     );

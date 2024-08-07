@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import DT from 'duration-time-conversion';
 import { t } from 'react-i18nify';

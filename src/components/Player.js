@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef, useCallback, useMemo, memo } from 'react';
+import { useState, useEffect, createRef, useCallback, useMemo, memo } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Translate } from 'react-i18nify';
 import styled from 'styled-components';

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { t } from 'react-i18nify';
 
