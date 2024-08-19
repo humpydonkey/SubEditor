@@ -3,7 +3,7 @@ import languages from '../libs/languages';
 import { t, Translate } from 'react-i18nify';
 import { useState, useCallback } from 'react';
 import { getExt, download } from '../utils';
-import { file2sub, sub2vtt, sub2srt, sub2txt } from '../libs/readSub';
+import { file2sub, sub2vtt, sub2srt, sub2srtTranslation, sub2txt } from '../libs/readSub';
 import sub2ass from '../libs/readSub/sub2ass';
 import googleTranslate from '../libs/googleTranslate';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
@@ -408,13 +408,17 @@ export default function Tool({
     const downloadSub = useCallback(
         (type) => {
             let text = '';
+            let text2 = '';
             const name = `${Date.now()}.${type}`;
+            const name2 = `${Date.now()}_translation.${type}`;
             switch (type) {
                 case 'vtt':
                     text = sub2vtt(subtitle);
                     break;
                 case 'srt':
                     text = sub2srt(subtitle);
+                    // translation
+                    text2 = sub2srtTranslation(subtitle);
                     break;
                 case 'ass':
                     text = sub2ass(subtitle);
@@ -430,6 +434,10 @@ export default function Tool({
             }
             const url = URL.createObjectURL(new Blob([text]));
             download(url, name);
+            if (text2.trim()) {
+                const url2 = URL.createObjectURL(new Blob([text2]));
+                download(url2, name2);
+            }
         },
         [subtitle],
     );

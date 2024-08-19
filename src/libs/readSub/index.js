@@ -97,10 +97,29 @@ export function sub2vtt(sub) {
 export function sub2srt(sub) {
     return sub
         .map((item, index) => {
+            // Support bi-lingual lines
+            // let line = `${index + 1}\n${item.start.replace('.', ',')} --> ${item.end.replace('.', ',')}\n${item.text}`;
+            // if (item.text2) {
+            //     line += `\n${item.text2}`;
+            // }
+            // line = line.replace("。“， ”").replace(".", "");
+            // return line;
             return `${index + 1}\n${item.start.replace('.', ',')} --> ${item.end.replace('.', ',')}\n${item.text}`;
         })
         .join('\n\n');
 }
+
+
+
+export function sub2srtTranslation(sub) {
+    return sub
+        .filter((item) => item.text2 && item.text2.trim())
+        .map((item, index) => {
+            return `${index + 1}\n${item.start.replace('.', ',')} --> ${item.end.replace('.', ',')}\n${item.text2.replace("。“， ”").replace(".", "")}`;
+        })
+        .join('\n\n');
+}
+
 
 export function sub2txt(sub) {
     return sub.map((item) => item.text).join('\n\n');
