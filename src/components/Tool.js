@@ -462,6 +462,17 @@ export default function Tool({
             });
     }, [subtitle, setLoading, formatSub, setSubtitle, translate, notify]);
 
+    const showRenderCommand = useCallback(() => {
+        let cmd = 'python vid_craft/render.py "title.mp4" "title.srt" "title" "@硅谷见闻" ~/Downloads/';
+        const userInput = window.prompt("Please review and modify the command if needed:", cmd);
+        if (userInput !== null) {
+            notify({
+                message: `Command to execute: ${userInput}`,
+                level: 'info',
+            });
+        }
+    }, [subtitle, notify]);
+
     return (
         <Style className="tool">
             <div className="navbar">
@@ -483,6 +494,11 @@ export default function Tool({
                     </div>
                 ) : null}
                 <div className="export">
+                    <div className="btn" onClick={showRenderCommand}>
+                        <div className="btn">
+                            <Translate value="EXPORT_VIDEO" />
+                        </div>
+                    </div>
                     <div className="btn" onClick={() => downloadSub('ass')}>
                         <Translate value="EXPORT_ASS" />
                     </div>
