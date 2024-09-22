@@ -1,4 +1,5 @@
 import 'core-js';
+import './index.css';
 import 'normalize.css';
 import './libs/contextmenu.css';
 import { Fragment } from 'react';
